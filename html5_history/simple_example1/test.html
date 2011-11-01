@@ -1,0 +1,69 @@
+<script>
+
+ window.onpopstate = function(event) {
+    //alert("location: " + document.location + ", state: " + JSON.stringify   (event.state)); 
+    if( event.state ){
+      document.getElementById("newContent").innerHTML = event.state;
+    }else{
+        document.getElementById("newContent").innerHTML = "Original Content";
+    }
+
+ };
+
+ function button1Action() {
+     //history.pushState({page: 1}, "title 1", "?page=1");
+     var req = new XMLHttpRequest();
+     var stateObject;
+     req.open("GET",
+             "http://localhost:8085/html5_history/test1.html",
+             true);
+     req.send(null);
+     req.onreadystatechange=function()
+     {
+        if (req.readyState==4 && req.status==200)
+        {
+          document.getElementById("newContent").innerHTML=req.responseText;
+          stateObject = req.responseText;
+          history.pushState(stateObject, null, "?action=1")
+        }
+     }     
+     
+ }
+
+ function button2Action() {
+     //history.pushState({page: 1}, "title 1", "?page=1");
+     var req = new XMLHttpRequest();
+     var stateObject;
+     req.open("GET",
+             "http://localhost:8085/html5_history/test2.html",
+             true);
+     req.send(null);
+     req.onreadystatechange=function()
+     {
+        if (req.readyState==4 && req.status==200)
+        {
+          document.getElementById("newContent").innerHTML=req.responseText;
+          stateObject = req.responseText;
+          history.pushState(stateObject, null, "?action=2");
+        }
+     }     
+     
+ }
+
+</script>
+
+<table>
+  <tr>
+    <td>
+      <input type="submit" value="button1" onClick="button1Action()" />
+      <br/>
+      <input type="submit" value="button2" onClick="button2Action()"/>
+    </td>
+    <td>
+      <div id="newContent"></div>
+    </td>
+  </tr>
+</table>
+
+
+
